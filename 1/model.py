@@ -37,8 +37,8 @@ class Book(Base):
 
     book_id = Column(Integer, primary_key=True)
     title = Column(String)
-    author_id = Column(Integer, ForeignKey("author.id"))
-    genre_id = Column(Integer, ForeignKey("genre.id"))
+    author_id = Column(Integer, ForeignKey("author.author_id"))
+    genre_id = Column(Integer, ForeignKey("genre.genre_id"))
     price = Column(Integer)
     amount = Column(Integer)
 
@@ -47,27 +47,27 @@ class client(Base):
     __tablename__ = "client"
     client_id = Column(Integer, primary_key=True)
     client_name = Column(String)
-    city_id = Column(Integer, ForeignKey("city.id"))
+    city_id = Column(Integer, ForeignKey("city.city_id"))
     email = Column(String)
 
 
 class buy(Base):
-    __tablename__ = "buyer"
+    __tablename__ = "buy"
     buy_id = Column(Integer, primary_key=True)
     buy_description = Column(String)
-    client_id = Column(Integer, ForeignKey("client.id"))
+    client_id = Column(Integer, ForeignKey("client.client_id"))
 
 class buy_book(Base):
     __tablename__ = "buy_book"
     buy_book_id = Column(Integer, primary_key=True)
-    buy_id = Column(Integer, ForeignKey("buy.id"))
-    book_id = Column(Integer, ForeignKey("book.id"))
+    buy_id = Column(Integer, ForeignKey("buy.buy_id"))
+    book_id = Column(Integer, ForeignKey("book.book_id"))
     amount = Column(Integer)
 
 class buy_step(Base):
     __tablename__ = "buy_step"
     buy_step_id = Column(Integer, primary_key=True)
-    buy_id = Column(Integer, ForeignKey("buy.id"))
-    step_id = Column(Integer, ForeignKey("step.id"))
+    buy_id = Column(Integer, ForeignKey("buy.buy_id"))
+    step_id = Column(Integer, ForeignKey("step.step_id"))
     date_step_begin = Column(DateTime)
     date_step_end = Column(DateTime)
