@@ -11,11 +11,11 @@ from urllib.parse import urlparse
 
 folder_path = ".\\trades_file"
 exclude_patterns = [
-            "Итого",
-            "Секция Биржи: «Нефтепродукты» АО «СПбМТСБ»",
-            "Единица измерения: Метрическая тонна",
-            "Итого по секции"
-        ]
+    "Итого",
+    "Секция Биржи: «Нефтепродукты» АО «СПбМТСБ»",
+    "Единица измерения: Метрическая тонна",
+    "Итого по секции"
+]
 columns_mapping = {
     'Код\nИнструмента': 'exchange_product_id',
     'Наименование\nИнструмента': 'delivery_product_name',
@@ -65,7 +65,6 @@ def main():
         for table_url in table_urls:
             table_name = download_xls(f"https://spimex.com/{table_url}")
             if int(table_name[22:26]) <= 2023:
-                print(f"Дата не соответствует - {table_name[22:26]} - {stopper}")
                 os.remove(table_name)
                 stopper += 1
                 if stopper == 15:
@@ -98,10 +97,10 @@ def main():
                     else:
                         td[column] = td[column].astype(str).str.strip()
                 os.remove(table_name)
-            except Exception:
+            except Exception as e:
+                print(str(e))
                 print(f"Ошибка при считывании файла - {table_name}")
                 continue
-
 
             filtered_td = td[td['Количество\nДоговоров,\nшт.'] > 0]
 
@@ -130,10 +129,11 @@ def main():
                         created_on=datetime.datetime.now(),
                         updated_on=datetime.datetime.now()
                     )
+
                     db.insert_to_db(trade_obj, session)
 
                 print("Успешно сохранено в бд!")
 
 
-if "__main__" == __name__:
+if __name__ == "__main__":
     main()

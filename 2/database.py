@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 
 from config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Text, Integer, Date, Float
+from sqlalchemy import Column, Text, Integer, Float, DateTime, Date
 
 Base = declarative_base()
 DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
@@ -23,8 +23,8 @@ class spimex_trading_results(Base):
     total = Column(Integer)
     count = Column(Integer)
     date = Column(Date)
-    created_on = Column(Date)
-    updated_on = Column(Date)
+    created_on = Column(DateTime)
+    updated_on = Column(DateTime)
 
 
 def get_engine_and_session():
@@ -36,7 +36,8 @@ def get_engine_and_session():
 def create_table(engine) -> bool:
     try:
         Base.metadata.create_all(bind=engine)
-    except Exception:
+    except Exception as e:
+        print(str(e))
         print("БД уже существует")
         return False
     print("БД успешно создана")

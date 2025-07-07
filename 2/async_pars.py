@@ -1,6 +1,4 @@
-import requests
 from bs4 import BeautifulSoup
-from datetime import datetime
 
 st_accept = "text/html"
 st_useragent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_3_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 " \
@@ -26,17 +24,3 @@ async def get_ref(page_id: int, session) -> list:
     trade_dates = [ref["href"] for ref in hrefs]
 
     return trade_dates
-
-
-import time
-
-
-def timer(func):
-    def wrapper(*args, **kwargs):
-        start_time = time.perf_counter()
-        result = func(*args, **kwargs)
-        end_time = time.perf_counter()
-        print(f"{func.__name__} выполнилась за {end_time - start_time:.6f} секунд")
-        return result
-
-    return wrapper
