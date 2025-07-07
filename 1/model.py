@@ -4,21 +4,21 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 Base = declarative_base()
 
 
-class genre(Base):
+class Genre(Base):
     __tablename__ = "genre"
 
     genre_id = Column(Integer, primary_key=True)
     name_genre = Column(String)
 
 
-class author(Base):
+class Author(Base):
     __tablename__ = "author"
 
     author_id = Column(Integer, primary_key=True)
     name_author = Column(String)
 
 
-class city(Base):
+class City(Base):
     __tablename__ = "city"
 
     city_id = Column(Integer, primary_key=True)
@@ -26,7 +26,7 @@ class city(Base):
     days_delivery = Column(DateTime)
 
 
-class step(Base):
+class Step(Base):
     __tablename__ = "step"
     step_id = Column(Integer, primary_key=True)
     name_step = Column(String)
@@ -43,7 +43,7 @@ class Book(Base):
     amount = Column(Integer)
 
 
-class client(Base):
+class Client(Base):
     __tablename__ = "client"
     client_id = Column(Integer, primary_key=True)
     client_name = Column(String)
@@ -51,20 +51,21 @@ class client(Base):
     email = Column(String)
 
 
-class buy(Base):
+class Buy(Base):
     __tablename__ = "buy"
     buy_id = Column(Integer, primary_key=True)
     buy_description = Column(String)
     client_id = Column(Integer, ForeignKey("client.client_id"))
 
-class buy_book(Base):
+class Buy_book(Base):
     __tablename__ = "buy_book"
     buy_book_id = Column(Integer, primary_key=True)
     buy_id = Column(Integer, ForeignKey("buy.buy_id"))
     book_id = Column(Integer, ForeignKey("book.book_id"))
     amount = Column(Integer)
 
-class buy_step(Base):
+
+class Buy_step(Base):
     __tablename__ = "buy_step"
     buy_step_id = Column(Integer, primary_key=True)
     buy_id = Column(Integer, ForeignKey("buy.buy_id"))
